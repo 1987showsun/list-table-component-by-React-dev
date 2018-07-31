@@ -1,0 +1,204 @@
+@mixin listPc() {
+    @media all and (min-width: 1280px) {
+        @content;
+    }
+}
+
+@mixin listPad() {
+    @media all and (min-width: 900px) and (max-width: 1279px) {
+        @content;
+    }
+}
+
+@mixin listMin() {
+    @media all and (min-width: 480px) and (max-width: 899px) {
+        @content;
+    }
+}
+
+@mixin listMobile() {
+    @media all and (max-width: 479px) {
+        @content;
+    }
+}
+
+.list-wrap{
+    width         : 100%;
+    height        : 100%;
+    display       : flex;
+    flex-wrap     : wrap;
+    background    : #fff;
+    padding       : 5px 5px 50px 5px;
+    flex-direction: column;
+    position      : relative;
+    p{
+        margin-bottom: 0px;
+    }
+    a{
+        color        : #5f99f5;
+    }
+    ul{
+        width          : 100%;
+        margin-bottom  : 0px; 
+        list-style-type: none;
+        >li{
+            display     : inline-flex;
+        }
+        &.list-ul{
+            height         : 100%; 
+            display        : flex;
+            overflow-y     : auto;
+            align-items    : flex-start;
+            position       : relative;
+            >li{
+                width       : 100%;
+                &.action{
+                    flex    : 0;
+                }
+                >ul{
+                    width           : 100%;
+                    border-bottom   : 1px solid #e8e8e8;
+                    >li{
+                        width           : 100%;
+                        min-height      : 35px; 
+                        padding         : 0px 10px; 
+                        font-size       : 0.7em;
+                        display         : flex;
+                        align-items     : center;
+                        border-bottom   : 1px solid #e8e8e8;
+                        p{
+                            white-space:nowrap;
+                        }
+                        &.t-head{
+                            width          : inherit;
+                            background     : #f7f7f7;
+                            font-size      : 0.8em;
+                            border-bottom  : none;
+                            font-weight    : bold;
+                            position       : sticky;
+                            top            : 0px; 
+                            span{
+                                width         : 25px;
+                                height        : 25px;
+                                display       : inline-flex;
+                                margin-left   : 10px;
+                                color         : #aaa;
+                                &.sort{
+                                    cursor           : pointer;
+                                    font-size        : 1em;
+                                    align-items      : center;
+                                    justify-content  : center;
+                                }
+                            }
+                        }
+                        &.action{
+                            flex-grow: 1;
+                            justify-content: center;
+                            .tool{
+                                display       : flex;
+                                span,a{
+                                    min-width        : 30px;
+                                    height           : 30px;
+                                    display          : inline-flex;
+                                    background       : #000;
+                                    margin-right     : 10px;
+                                    border-radius    : 100px;
+                                    align-items      : center;
+                                    justify-content  : center;
+                                    color            : #fff;
+                                    font-size        : 0.6em; 
+                                    opacity          : 0.7;
+                                    cursor           : pointer;
+                                    &:last-child{
+                                        margin-right : 0px;
+                                    }
+                                    &:hover{
+                                        opacity          : 1;
+                                    }
+                                    &.tool-btn{
+                                        &.delete{
+                                            background: #ec1809;
+                                        }
+                                        &.edit{
+                                            background: #4CAF50;
+                                        }
+                                        &.more{
+                                            background: #5f99f5;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        &:last-child{
+                            border-bottom  : none;
+                        }
+                        &.list-total{
+                            background     : #efefef;
+                            color          : #f00;
+                            position       : sticky;
+                            bottom         : 0px;
+                        }
+                    }
+                }
+            }
+        }
+
+        &.list-block-ul{
+            >li{
+                figure{
+                    >a{
+                       overflow: hidden;
+                    }
+                    figcaption{
+                        display         : flex;
+                        flex-wrap       : wrap; 
+                        justify-content : center;
+                        margin-top      : 5px;
+                        a{
+                            color         : #333;
+                        }
+                        h3,p{
+                            width         : 100%; 
+                            text-align    : center;
+                            margin-bottom : 0px;
+                        }
+                        h3{ font-size     : 1.1em; }
+                        p { font-size     : 1em; }
+                    }
+                }
+
+                @include listPc{
+                    width       : 16.66%;
+                    padding     : 10px;
+                }
+
+                @include listPad{
+                    width       : 16.66%;
+                    padding     : 5px;
+                }
+
+                @include listMin{
+                    width       : 33.3333%;
+                    padding     : 5px;
+                }
+
+                @include listMobile{
+                    width       : 50%;
+                    padding     : 5px;
+                }
+            }
+            &[data-type=singer]{
+                figure{
+                    >a{
+                       border-radius: 300px;
+                    }
+                }
+            }
+            &[data-type=album]{
+
+            }
+        }
+    }
+    
+}
+
