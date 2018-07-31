@@ -14,7 +14,46 @@
       "total"     : "", //該欄為統計，如：輸入文字就直接顯示文字，可空直就將該欄位相加得到總合
       "link"      : true, //開啟該欄位連結
       "path"      : "/xxxx/zzzz/aaaa" //欄位網址
-    }
+    },
+    {
+      "title"     : "鱼种", //column名稱
+      "columnKey" : "name",//keyname
+      "total"     : "", //該欄為統計，如：輸入文字就直接顯示文字，可空直就將該欄位相加得到總合
+      "link"      : true, //開啟該欄位連結
+      "path"      : "/xxxx/zzzz/aaaa" //欄位網址
+    },
+    {
+      "title"     : "鱼种", //column名稱
+      "columnKey" : "rate",//keyname
+      "total"     : "", //該欄為統計，如：輸入文字就直接顯示文字，可空直就將該欄位相加得到總合
+      "link"      : true, //開啟該欄位連結
+      "path"      : "/xxxx/zzzz/aaaa" //欄位網址
+    },
+    {
+      "title"     : "鱼种", //column名稱
+      "columnKey" : "fishMoney",//keyname
+      "total"     : "", //該欄為統計，如：輸入文字就直接顯示文字，可空直就將該欄位相加得到總合
+      "link"      : true, //開啟該欄位連結
+      "path"      : "/xxxx/zzzz/aaaa" //欄位網址
+    },
+  ]
+```
+
+## Ex Data json
+```json
+  [
+    {
+      "id"             : "1",
+      "name"           : "名稱1",
+      "rate"           : 100,
+      "fishMoney"      : 1000
+    },
+    {
+      "id"             : "1",
+      "name"           : "名稱1",
+      "rate"           : 100,
+      "fishMoney"      : 1000
+    },
   ]
 ```
 
