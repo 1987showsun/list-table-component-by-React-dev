@@ -6,7 +6,7 @@
 ```
 
 ## Ex columns json
-```json
+```js
   [
     {
       "title"     : "鱼种", //column名稱
@@ -53,7 +53,7 @@
 ## Ex instructions:
 ```js
   <List 
-  	total           = { total }
+    total           = { total }
     limit           = { limit }
     columns         = { thead['test'] }
     data            = { data }
