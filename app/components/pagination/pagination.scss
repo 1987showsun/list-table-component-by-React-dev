@@ -16,13 +16,15 @@
                 margin-right: 0px;
             }
             a{
-                height        : 30px;
+                min-width     : 35px;
+                height        : 35px;
                 padding       : 0px 10px;
                 display       : flex;
                 align-items   : center;
                 border        : 1px solid #ccc;
                 border-radius : 4px;
                 text-decoration: none;
+                justify-content: center;
                 &.active{
                     color               : #fff;
                     background          : #1890ff;
