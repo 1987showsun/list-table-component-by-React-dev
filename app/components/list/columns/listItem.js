@@ -1,9 +1,9 @@
 import React    from 'react';
 import { Link } from 'react-router-dom';
-import NP       from 'number-precision';
 
 //Components
 import Thead    from './thead';
+import Tfooter  from './tfooter';
 
 export default class ListItem extends React.Component{
 
@@ -25,10 +25,6 @@ export default class ListItem extends React.Component{
             fixed                      : props.fixed              || [],
             [props.tHead['columnKey']] : 0,
         }
-    }
-
-    componentDidMount() {
-        test(this.state.tHeadKey,this.state.data);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -55,19 +51,6 @@ export default class ListItem extends React.Component{
         })
     }
 
-    sortACtion(sortKey){
-        let sortStatus = this.state[sortKey];
-        sortStatus ++;
-        if( sortStatus>2 ){
-            sortStatus=0;
-        }
-        this.setState({
-            [sortKey] : sortStatus
-        },()=>{
-            this.props.returnSataus( sortKey,sortStatus );
-        })
-    }
-
     render(){
         return(
             <li className={`${this.state.tHeadKey!="action"? "" : "action"}`}>
@@ -79,6 +62,7 @@ export default class ListItem extends React.Component{
                         sort         = {this.props.sort}
                         tHeadKey     = {this.state.tHeadKey}
                         returnSataus = {this.props.returnSataus}
+                        fixed        = {this.state.fixed}
                     />
                     {
                         this.state.data.map((item,i)=>{
@@ -102,6 +86,8 @@ export default class ListItem extends React.Component{
                                             {
                                                 this.state.tHead[this.state.tHeadKey].map((item,b)=>{
                                                     if( item['key']!="more" ){
+                                                        const itemStyle = item['style'] || {};
+
                                                         return(
                                                             <span key={b} className={`tool-btn ${item["key"]} ${item["icon"] || ""}`} title={item['text']||""} style={itemStyle}>{ item['text']||""  }</span>
                                                         );
@@ -118,40 +104,15 @@ export default class ListItem extends React.Component{
                             }
                         })
                     }
-                    {
-                        this.state.totalSwitch==true?(
-                            this.state.totalObj['text']!=""?(
-                                <li className="list-total">{this.state.totalObj['text']}</li>
-                            ):(
-                                this.state.totalObj['switch']==true?(
-                                    <li className="list-total">{ test(this.state.tHeadKey,this.state.data) }</li>
-                                ):(
-                                    <li className="list-total">--</li>
-                                )
-                            )
-                        ):(
-                            null
-                        )
-                    }
+                    <Tfooter
+                        totalSwitch       = {this.state.totalSwitch}
+                        totalObj          = {this.state.totalObj}
+                        tHeadKey          = {this.state.tHeadKey}
+                        data              = {this.state.data}
+                        fixed             = {this.state.fixed}
+                    />
                 </ul>
             </li>
         );
     }
-}
-
-const test = (key,data) => {
-    let sum = 0;
-    const nuArray = data.map((item,i)=>{
-        if( !isNaN(Number(item[key])) ){
-            if (item[key]) {
-                sum = NP.plus(sum, item[key]);
-            }
-        }
-    });
-
-    if( sum%1===0 ){
-        sum = sum+'.00';
-    }
-
-    return sum;
 }

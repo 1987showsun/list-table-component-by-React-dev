@@ -9,14 +9,15 @@ export default class Thead extends React.Component{
             sortSwitch                 : props.sortSwitch || false,
             sort                       : props.sort,
             tHeadKey                   : props.tHeadKey   || "",
-            [props.tHead['columnKey']] : 0,
+            fixed                      : props.fixed      || []
         }
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            tHead : nextProps.tHead,
-            sort  : nextProps.sort,
+            tHead                      : nextProps.tHead,
+            sort                       : nextProps.sort,
+            fixed                      : nextProps.fixed      || []
         })
     }
 
@@ -43,8 +44,7 @@ export default class Thead extends React.Component{
     }
 
     sortACtion(tHeadKey){
-
-        let _sort      = this.state.sort;
+        let _sort        = this.state.sort;
         let sortStatus   = _sort.filter(item=>{
             return Object.keys(item)==tHeadKey;
         })[0][tHeadKey];
@@ -61,8 +61,16 @@ export default class Thead extends React.Component{
     }
 
     render(){
+        const fixedClass = this.state.fixed.some((item,i)=>{
+            return item == 'thead';
+        })?(
+            "sticky"
+        ):(
+            ""
+        );
+
         return(
-            <li className="t-head">
+            <li className={`t-head ${fixedClass}`}>
                 <p>{this.state.title}</p>
                 {
                     this.state.sortSwitch &&
