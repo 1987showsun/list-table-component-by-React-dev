@@ -29,9 +29,7 @@
       "link"      : true, //開啟該欄位連結
       "path"      : "/xxxx/zzzz/aaaa" //欄位網址
     },
-    .
-    .
-    .
+    {...},
     {
       "title"     : "鱼种", //column名稱
       "columnKey" : "fishMoney",//keyname
