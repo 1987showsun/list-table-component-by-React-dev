@@ -1,0 +1,68 @@
+[
+    {
+      "id"             : "1",
+      "name"           : "名稱1",
+      "rate"           : 100,
+      "fishMoney"      : 1000,
+      "totalMoney"     : 0.8,
+      "bulletMoney"    : 0.7,
+      "earn"           : 10,
+      "alive"          : 120,
+      "dead"           : ""
+    },
+    {
+      "id"             : "2",
+      "name"           : "名稱2",
+      "rate"           : 100,
+      "fishMoney"      : 1000,
+      "totalMoney"     : 0.8,
+      "bulletMoney"    : 0.7,
+      "earn"           : 10,
+      "alive"          : 120,
+      "dead"           : ""
+    },
+    {
+      "id"             : "3",
+      "name"           : "名稱3",
+      "rate"           : 100,
+      "fishMoney"      : 1000,
+      "totalMoney"     : 0.4,
+      "bulletMoney"    : 0.7,
+      "earn"           : 10,
+      "alive"          : 120,
+      "dead"           : ""
+    },
+    {
+        "id"             : "4",
+      "name"           : "名稱4",
+      "rate"           : 100,
+      "fishMoney"      : 1000,
+      "totalMoney"     : 0.8,
+      "bulletMoney"    : 0.7,
+      "earn"           : 10,
+      "alive"          : 120,
+      "dead"           : ""
+    },
+    {
+        "id"             : "5",
+      "name"           : "名稱5",
+      "rate"           : 100,
+      "fishMoney"      : 1000,
+      "totalMoney"     : 0.8,
+      "bulletMoney"    : 0.7,
+      "earn"           : 10,
+      "alive"          : 120,
+      "dead"           : ""
+    },
+    {
+        "id"             : "6",
+      "name"           : "名稱6",
+      "rate"           : 100,
+      "fishMoney"      : 1000,
+      "totalMoney"     : 0.8,
+      "bulletMoney"    : 0.7,
+      "earn"           : 10,
+      "alive"          : 120,
+      "dead"           : ""
+    }
+  ]

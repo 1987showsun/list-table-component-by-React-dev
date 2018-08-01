@@ -1,13 +1,17 @@
 {
-    "profit" : [
+    "test" : [
         {
             "title"     : "鱼种",
             "columnKey" : "name",
-            "total"     : "共计"
+            "total"     : "共计",
+            "link"      : true,
+            "path"      : "info",
+            "sort"      : true
         },
         {
             "title"     : "炮倍",
-            "columnKey" : "rate"
+            "columnKey" : "rate",
+            "sort"      : true
         },
         {
             "title"     : "单价",
@@ -35,98 +39,27 @@
         {
             "title"     : "被捕获",
             "columnKey" : "dead"
-        }
-    ],
-    "remainder" : [
-        {
-            "title"     : "鱼种",
-            "columnKey" : "name",
-            "total"     : "全部总计"
         },
         {
-            "title"     : "编号",
-            "columnKey" : "id"
-        },
-        {
-            "title"     : "价值",
-            "columnKey" : "price",
-            "total"     : ""
-        },
-        {
-            "title"     : "收入",
-            "columnKey" : "bulletMoney",
-            "total"     : ""
-        },
-        {
-            "title"     : "当前状态",
-            "columnKey" : "status"
-        }
-    ],
-    "income" : [
-        {
-            "title"     : "鱼种",
-            "columnKey" : "name",
-            "total"     : "全部总计",
-            "maxlength" : "5"
-        },
-        {
-            "title"     : "编号",
-            "columnKey" : "id",
-            "maxlength" : "6"
-        },
-        {
-            "title"     : "买鱼支出",
-            "columnKey" : "price",
-            "total"     : "",
-            "maxlength" : "6"
-        },
-        {
-            "title"     : "子弹收入",
-            "columnKey" : "bulletMoney",
-            "total"     : "",
-            "maxlength" : "8"
-        },
-        {
-            "title"     : "当前状态",
-            "columnKey" : "status",
-            "maxlength" : "7"
-        },
-        {
-            "title"     : "结算时间",
-            "columnKey" : "settleTime"
-        }
-    ],
-    "fish" : [
-        {
-            "title"     : "鱼种",
-            "columnKey" : "name",
-            "total"     : "全部总计",
-            "maxlength" : "5"
-        },
-        {
-            "title"     : "编号",
-            "columnKey" : "id",
-            "maxlength" : "6"
-        },
-        {
-            "title"     : "炮倍",
-            "columnKey" : "rate",
-            "maxlength" : "3"
-        },
-        {
-            "title"     : "买鱼支出",
-            "columnKey" : "price",
-            "total"     : "",
-            "maxlength" : "6"
-        },
-        {
-            "title"     : "结算",
-            "columnKey" : "settle",
-            "maxlength" : "6"
-        },
-        {
-            "title"     : "购买时间",
-            "columnKey" : "createTime"
+          "title"       : "動作",
+          "columnKey"   : "action",
+          "action"      : [
+            {
+              "key"   : "edit",
+              "text"  : "修改",
+              "icon"  : ""
+            },
+            {
+              "key"   : "delete",
+              "text"  : "修改",
+              "icon"  : ""
+            },
+            {
+              "key"   : "info",
+              "text"  : "修改",
+              "icon"  : ""
+            }
+          ]
         }
     ]
 }
