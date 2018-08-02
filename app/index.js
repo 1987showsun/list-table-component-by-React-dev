@@ -29,21 +29,19 @@ export default class Index extends React.Component{
 
   render(){
     return(
-      <BrowserRouter>
-        <List 
-            total           = { total }
-            limit           = { limit }
-            columns         = { thead['test'] }
-            data            = { data }
-            currentPage     = "1"
-            paginationStyle = "model1"
-            paginationPath  = {`/nowPageType`}
-            paginationSearch= {""}
-            reload          = { this.reloadAData.bind(this) }
-            fixedWidth      = { this.state.fixedWidth }
-            fixed           = {["thead","tfooter"]}
-        />
-      </BrowserRouter>
+      <List 
+          total           = { total }
+          limit           = { limit }
+          columns         = { thead['test'] }
+          data            = { data }
+          currentPage     = "1"
+          paginationStyle = "model1"
+          paginationPath  = {`/nowPageType`}
+          paginationSearch= {""}
+          reload          = { this.reloadAData.bind(this) }
+          fixedWidth      = { this.state.fixedWidth }
+          fixed           = {["thead","tfooter"]}
+      />
     )
   }
 }

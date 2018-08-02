@@ -3,9 +3,6 @@ const webpack           = require("webpack");
 const path              = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-const apiUrl = "http://192.168.211.1:8090/";
-//const apiUrl = "http://203.95.195.185:20053/";
-
 //package 變數一定要 "NODE_ENV" 為開頭
 const keyName = {};
 Object.keys(process.env).map((key, i) => {
@@ -16,18 +13,25 @@ Object.keys(process.env).map((key, i) => {
 const env = keyName;
 
 const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: `${__dirname}/app/index.html`,
-  filename: "index.html",
-  inject: "body"
+  template  : `${__dirname}/app/index.html`,
+  filename  : "index.html",
+  inject    : "body"
 });
 
+const contextFilePath    = env.NODE_ENV_REDUX_BUILD=="true"? ""       : "/components/list";
+const libraryTargetType  = env.NODE_ENV_REDUX_BUILD=="true"? "umd"    : "commonjs2";
+const externalsType      = env.NODE_ENV_REDUX_BUILD=="true"? {}       : {'react': 'commonjs react'};
+const CWP                = env.NODE_ENV_REDUX_BUILD=="true"? [{ from: "./assets", to: "assets" }] : [];
+const outputFilePath     = env.NODE_ENV_REDUX_BUILD=="true"? "/dist/" : "/commonjs/";
+
 module.exports = {
-  context: path.join(__dirname, "/app"),
-  entry: ["./index.js"],
-  output: {
-    library: "BrowserRouter",
-    path: `${__dirname}/dist/`,
-    filename: `./index.js`
+  context         : path.join(__dirname, `/app${contextFilePath}` ),
+  entry           : ["./index.js"],
+  output          : {
+    library         : "BrowserRouter",
+    path            : `${__dirname}${outputFilePath}`,
+    filename        : `./index.js`,
+    libraryTarget   : libraryTargetType
   },
   resolve: {
     modules: [
@@ -93,27 +97,26 @@ module.exports = {
     ]
   },
   devServer: {
-    historyApiFallback: true,
-    //contentBase: './dist',
-    contentBase: "./app",
-    watchContentBase: false,
-    inline: true,
-    //hot                : true,
-    port: 8002,
-    host: "0.0.0.0",
-    useLocalIp: false,
-    disableHostCheck: false
+    historyApiFallback   : true,
+    contentBase          : "./app",
+    watchContentBase     : false,
+    inline               : true,
+    port                 : 8002,
+    host                 : "0.0.0.0",
+    useLocalIp           : false,
+    disableHostCheck     : false
   },
   plugins: [
     HTMLWebpackPluginConfig,
     new webpack.DefinePlugin({
-      "process.env": env
+      "process.env"    : env
     }),
-    new CopyWebpackPlugin([{ from: "./assets", to: "assets" }]),
+    new CopyWebpackPlugin( CWP ),
     new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery",
-      "window.jQuery": "jquery"
+      $                : "jquery",
+      jQuery           : "jquery",
+      "window.jQuery"  : "jquery"
     })
-  ]
+  ],
+  externals :externalsType
 };
