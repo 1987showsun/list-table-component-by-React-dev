@@ -51,12 +51,12 @@
             },
             {
               "key"   : "delete",
-              "text"  : "修改",
+              "text"  : "刪除",
               "icon"  : ""
             },
             {
               "key"   : "info",
-              "text"  : "修改",
+              "text"  : "訊息",
               "icon"  : ""
             }
           ]

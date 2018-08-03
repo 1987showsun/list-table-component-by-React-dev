@@ -1,6 +1,4 @@
-//@import url(//use.fontawesome.com/releases/v5.0.13/css/all.css);
-  
-@mixin m_800() {
+  @mixin m_800() {
     @media all and (min-width: 800px) {
         @content;
     }

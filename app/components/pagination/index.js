@@ -1,7 +1,8 @@
 import React    from 'react';
-import { Link } from 'react-router-dom';
+import { Link }       from 'react-router-dom';
 
-import Item from './item';
+//Components
+import Item           from './item';
 
 import './pagination.scss';
 

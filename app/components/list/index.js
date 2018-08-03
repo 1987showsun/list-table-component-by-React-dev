@@ -1,6 +1,6 @@
 import React,{Component}           from 'react';
-import { BrowserRouter }           from "react-router-dom";
 
+//Components
 import Pagination                  from '../pagination';
 import ListWrap                    from './columns/listWrap';
 import BlockWrap                   from './block/blockWrap';
@@ -24,7 +24,7 @@ export default class List extends React.Component{
                 return {[item['columnKey']]:0}
             }) : [],
             paginationStyle  : props.paginationStyle    || "model1",
-            paginationPath   : props.paginationPath     || "normal",
+            paginationPath   : props.paginationPath     || "",
             paginationSearch : props.paginationSearch   || "",
             fixedWidth       : props.fixedWidth,
             fixed            : props.fixed              || [],
@@ -68,7 +68,9 @@ export default class List extends React.Component{
     }
 
     reSortListData(){
-        let data = this.state.data;
+        if( this.props.returnSort!=undefined ){
+            this.props.returnSort(this.state.sort);
+        }
     }
 
     render(){
@@ -83,31 +85,27 @@ export default class List extends React.Component{
                 );
 
                 return(
-                    <BrowserRouter>
-                        <div className={`list-wrap ${limitHeight}`}>
-                            <ListWrap 
-                                sort          = { this.state.sort } 
-                                columns       = { this.state.columns } 
-                                data          = { this.state.data } 
-                                returnSataus  = { this.sortStatus.bind(this) } 
-                                fixedWidth    = { this.state.fixedWidth } 
-                                fixed         = { this.state.fixed }
-                            />
-                            {this.props.children}
-                            <Pagination total={this.state.total} limit={this.state.limit} match={this.state.match} path={this.state.paginationPath} serach={this.state.paginationSearch} reload={this.props.reload} currentPage={this.props.currentPage} paginationStyle={this.state.paginationStyle}/>
-                        </div>
-                    </BrowserRouter>
+                    <div className={`list-wrap ${limitHeight}`}>
+                        <ListWrap 
+                            sort          = { this.state.sort } 
+                            columns       = { this.state.columns } 
+                            data          = { this.state.data } 
+                            returnSataus  = { this.sortStatus.bind(this) } 
+                            fixedWidth    = { this.state.fixedWidth } 
+                            fixed         = { this.state.fixed }
+                        />
+                        {this.props.children}
+                        <Pagination total={this.state.total} limit={this.state.limit} match={this.state.match} path={this.state.paginationPath} serach={this.state.paginationSearch} reload={this.props.reload} currentPage={this.props.currentPage} paginationStyle={this.state.paginationStyle}/>
+                    </div>
                 );
                 break;
         
             default:
                 return(
-                    <BrowserRouter>
-                        <div className="list-wrap">
-                            <BlockWrap className={this.state.class} columns={this.state.columns} data={this.state.data}/>
-                            <Pagination total={this.state.total} limit={this.state.limit} match={this.state.match} path={this.state.paginationPath} serach={this.state.paginationSearch} reload={this.props.reload} currentPage={this.props.currentPage} paginationStyle={this.state.paginationStyle}/>
-                        </div>
-                    </BrowserRouter>
+                    <div className="list-wrap">
+                        <BlockWrap className={this.state.class} columns={this.state.columns} data={this.state.data}/>
+                        <Pagination total={this.state.total} limit={this.state.limit} match={this.state.match} path={this.state.paginationPath} serach={this.state.paginationSearch} reload={this.props.reload} currentPage={this.props.currentPage} paginationStyle={this.state.paginationStyle}/>
+                    </div>
                 );
                 break;
         }

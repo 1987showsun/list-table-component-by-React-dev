@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaSort,FaSortDown,FaSortUp } from 'react-icons/fa';
 
 export default class Thead extends React.Component{
 
@@ -30,15 +31,15 @@ export default class Thead extends React.Component{
 
         switch (sortStatus) {
             case 0:
-                return "fas fas fa-sort";
+                return <FaSort />;
                 break;
 
             case 1:
-                return "fas fa-sort-down";
+                return <FaSortDown />;
                 break;
         
             default:
-                return "fas fa-sort-up";
+                return <FaSortUp />;
                 break;
         }
     }
@@ -74,7 +75,9 @@ export default class Thead extends React.Component{
                 <p>{this.state.title}</p>
                 {
                     this.state.sortSwitch &&
-                        <span className={`sort ${this.sortStatus(this.state.tHeadKey)}`} onClick={this.sortACtion.bind(this,this.state.tHeadKey)}></span>
+                        <span className={`sort`} onClick={this.sortACtion.bind(this,this.state.tHeadKey)}>
+                            {this.sortStatus(this.state.tHeadKey)}
+                        </span>
                 }
             </li>
         );
