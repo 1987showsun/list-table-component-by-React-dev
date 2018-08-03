@@ -2,7 +2,7 @@
 
 ## npm
 ```sh
-  npm i react-table-list-beta
+  npm i react-router-dom react-table-list-beta
 ```
 
 ## git
@@ -58,21 +58,29 @@
 
 ## Ex instructions:
 ```js
-  <List 
-      match             = { this.props.match }
-      total             = { total }
-      limit             = { limit }
-      columns           = { thead['test'] }
-      data              = { data }
-      currentPage       = { this.props.match['params']['current'] }
-      paginationStyle   = "model1"
-      paginationPath    = { `/asd` }
-      paginationSearch  = { `?testSearch=zzzz` }
-      returnCurrentPage = { this.returnCurrentPage.bind(this) }
-      returnSort        = { this.returnSortFreeFunctionName.bind(this) }
-      fixedWidth        = { this.state.fixedWidth }
-      fixed             = { ["thead","tfooter"] }
-  />
+
+  import {BrowserRouter} from 'react-router-dom';
+  import List            from 'react-table-list-beta';
+
+  <BrowserRouter>
+    ...
+    <List 
+        match             = { this.props.match }
+        total             = { total }
+        limit             = { limit }
+        columns           = { thead['test'] }
+        data              = { data }
+        currentPage       = { this.props.match['params']['current'] }
+        paginationStyle   = "model1"
+        paginationPath    = { `/asd` }
+        paginationSearch  = { `?testSearch=zzzz` }
+        returnCurrentPage = { this.returnCurrentPage.bind(this) }
+        returnSort        = { this.returnSortFreeFunctionName.bind(this) }
+        fixedWidth        = { this.state.fixedWidth }
+        fixed             = { ["thead","tfooter"] }
+    />
+    ...
+  </BrowserRouter>
 ```
 
 
