@@ -59,19 +59,19 @@
 ## Ex instructions:
 ```js
   <List 
-    total           = { total }
-    limit           = { limit }
-    columns         = { thead['test'] }
-    data            = { data }
-    currentPage     = "1"                              //current pagenumber
-    paginationStyle = "model1"                         //pagination style
-    paginationPath  = {`/nowPageType`}                 //Url Path
-    paginationSearch= {""}                             //loaction.search ?aaaa=111111&bbbb=222222.....
-    reload          = { this.reloadAData.bind(this) }  //callback
-    columnMinWidth  = { this.state.fixedWidth }        //column min width
-    fixed           = {["thead","tfooter"]}            //fixed table head & table footer
-    typeStyle       = "block" or "list"                //Display method
-    addClassName    = "xxx"                            //Additional class name
+      match             = { this.props.match }
+      total             = { total }
+      limit             = { limit }
+      columns           = { thead['test'] }
+      data              = { data }
+      currentPage       = { this.props.match['params']['current'] }
+      paginationStyle   = "model1"
+      paginationPath    = { `/asd` }
+      paginationSearch  = { `?testSearch=zzzz` }
+      returnCurrentPage = { this.returnCurrentPage.bind(this) }
+      returnSort        = { this.returnSortFreeFunctionName.bind(this) }
+      fixedWidth        = { this.state.fixedWidth }
+      fixed             = { ["thead","tfooter"] }
   />
 ```
 
@@ -87,7 +87,7 @@
 | paginationStyle  | paginationStyle = {"model1"or"model2"}                    | pagination style                            |
 | paginationPath   | paginationPath  = { path link url string }                | 頁碼連結                                     |
 | paginationSearch | paginationSearch = { loaction.search }                    | ex: ?aaaa=111111&bbbb=222222.....           |
-| reload           | reload={ this.callbackfunction.bind(this) }               | callbackfunction Free name              |
+| returnCurrentPage | returnCurrentPage={ this.returnCurrentPage.bind(this) }               | returnCurrentPage Free name              |
 | fixed            | fixed={["thead","tfooter"]}                               | 可上下固定或其中一個固定<br/> typeof：object <br/> status： <br/> 1.thead<br/>2.tfooter  |
 | showLength       | showLength={showLength number}                            | columns 一次可顯示比數                        |
 | typeStyle        | typeStyle= "block" / "list"                               | Display method Block or Column              |
