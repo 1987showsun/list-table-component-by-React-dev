@@ -11,6 +11,7 @@
 ```
 
 ## Ex columns json
+### typeSStyle : list
 ```js
   [
     {
@@ -21,13 +22,6 @@
       "path"      : "/xxxx/zzzz/aaaa",//欄位網址
       "sort"      : true              //排序開關 //status 0:一般排序 1:遞減 2:遞增
     },
-    {
-      "title"     : "鱼种",            //column名稱
-      "columnKey" : "name",           //keyname
-      "total"     : "",               //該欄為統計，如：輸入文字就直接顯示文字，可空直就將該欄位相加得到總合
-      "link"      : true,             //開啟該欄位連結
-      "path"      : "/xxxx/zzzz/aaaa" //欄位網址
-    },
     {...},
     {
       "title"     : "鱼种",            //column名稱
@@ -35,6 +29,24 @@
       "total"     : "",               //該欄為統計，如：輸入文字就直接顯示文字，可空直就將該欄位相加得到總合
       "link"      : true,             //開啟該欄位連結
       "path"      : "/xxxx/zzzz/aaaa" //欄位網址
+    }
+  ]
+```
+### typeSStyle : block （固定）
+```js
+  [
+    {
+      "title"     : "Cover",          //column名稱
+      "columnKey" : "cover",          //keyname
+      "link"      : true,             //開啟該欄位連結
+      "path"      : "/info/teams"     //欄位網址
+    },
+    {
+      "title"     : "Content",         //column名稱
+      "columnKey" : "",                //有 children keyname 該欄位
+      "children"  : ["name","name_en"],//children keyname 非固定，自取名需對應 data keyname
+      "link"      : true,              //開啟該欄位連結
+      "path"      : "/info/teams"      //欄位網址
     }
   ]
 ```
