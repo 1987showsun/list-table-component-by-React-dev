@@ -94,4 +94,5 @@
 | addClassName     | addClassName= "XXXX"                                      | Additional class name                       |
 
 ## Demo Image
+### typeStyle : list
 ![alt text](https://s3-ap-northeast-1.amazonaws.com/showtest/Users/showsun/react_img/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7+2018-08-01+%E4%B8%8B%E5%8D%885.58.55.png)
