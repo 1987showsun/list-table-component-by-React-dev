@@ -2,7 +2,7 @@
 
 ## npm
 ```sh
-  npm i react react-router-dom@4.1.2 number-precision
+  npm i react-table-list-beta
 ```
 
 ## Ex columns json
