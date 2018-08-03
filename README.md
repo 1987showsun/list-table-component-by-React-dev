@@ -70,6 +70,8 @@
     reload          = { this.reloadAData.bind(this) }  //callback
     columnMinWidth  = { this.state.fixedWidth }        //column min width
     fixed           = {["thead","tfooter"]}            //fixed table head & table footer
+    typeStyle       = "block" or "list"                //Display method
+    addClassName    = "xxx"                            //Additional class name
   />
 ```
 
@@ -88,6 +90,8 @@
 | reload           | reload={ this.callbackfunction.bind(this) }               | callbackfunction Free name              |
 | fixed            | fixed={["thead","tfooter"]}                               | 可上下固定或其中一個固定<br/> typeof：object <br/> status： <br/> 1.thead<br/>2.tfooter  |
 | showLength       | showLength={showLength number}                            | columns 一次可顯示比數                        |
+| typeStyle        | typeStyle= "block" / "list"                               | Display method Block or Column              |
+| addClassName     | addClassName= "XXXX"                                      | Additional class name                       |
 
 ## Demo Image
 ![alt text](https://s3-ap-northeast-1.amazonaws.com/showtest/Users/showsun/react_img/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7+2018-08-01+%E4%B8%8B%E5%8D%885.58.55.png)
