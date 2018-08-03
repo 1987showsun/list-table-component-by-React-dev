@@ -53,7 +53,6 @@ export default class Pagination extends React.Component{
             
             case "model2":
                 let match   = this.state.match;
-                console.log( match['params'] );
                 let current = match['params']!=undefined? Number(match['params']['current']) : 1;
                 if( current==1 ){
                     pagination[0]= <li key="1" className="pointerEvents"><Link to={`${this.state.path}/${current-1}${this.state.serach}`} onClick={this.callback.bind(this,current-1)} className="changePageBtn fas fa-angle-left"></Link></li>;
@@ -80,25 +79,13 @@ export default class Pagination extends React.Component{
         })
     }
 
-    callbackChangeBtn( btnStatus ){
-        let match   = this.state.match;
-        let current = match['params']['current'] || 1;
-        if( btnStatus=="pver" ){
-            current--;
-            if( current<=0 ){
-                current == 1;
-            }
-        }else{
-            current++;
-        }
-        this.props.reload( true,current );
-    }
-
     callback( selectedCP ){
         let match   = this.state.match;
         let current = match['params']['current'];
-        if( current!=selectedCP ){
-            this.props.reload( true,selectedCP );
+        if( this.props.returnCurrentPage!=undefined ){
+            if( current!=selectedCP ){
+                this.props.returnCurrentPage( selectedCP );
+            }
         }
     }
 

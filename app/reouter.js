@@ -7,8 +7,8 @@ export default class Router extends React.Component{
     render(){
         return(
             <Switch>
-                <Route path="/:type:cun" component={Test} />
-                <Route path="/:cun" component={Test} />
+                <Route path="/:type/:current" component={Test} />
+                <Route path="/:current" component={Test} />
                 <Route path="/" component={Test} />
             </Switch>
         )

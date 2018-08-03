@@ -14,13 +14,13 @@ export default class Router extends React.Component{
 
     constructor(props){
         super(props);
-    this.state = {
-        fixedWidth : 100,
-    }
+        this.state = {
+            fixedWidth : 100,
+        }
     }
 
-    reloadAData(sort){
-        console.log(sort);
+    returnCurrentPage( currentPage ){
+        //current page number
     }
 
     returnSortFreeFunctionName(sortStatus){
@@ -31,18 +31,19 @@ export default class Router extends React.Component{
         return(
             <div>
                 <List 
-                    total           = { total }
-                    limit           = { limit }
-                    columns         = { thead['test'] }
-                    data            = { data }
-                    currentPage     = "1"
-                    paginationStyle = "model1"
-                    paginationPath  = {`/asd`}
-                    paginationSearch= {`?testSearch=zzzz`}
-                    reload          = { this.reloadAData.bind(this) }
-                    returnSort      = { this.returnSortFreeFunctionName.bind(this) }
-                    fixedWidth      = { this.state.fixedWidth }
-                    fixed           = {["thead","tfooter"]}
+                    match             = { this.props.match }
+                    total             = { total }
+                    limit             = { limit }
+                    columns           = { thead['test'] }
+                    data              = { data }
+                    currentPage       = { this.props.match['params']['current'] }
+                    paginationStyle   = "model1"
+                    paginationPath    = { `/asd` }
+                    paginationSearch  = { `?testSearch=zzzz` }
+                    returnCurrentPage = { this.returnCurrentPage.bind(this) }
+                    returnSort        = { this.returnSortFreeFunctionName.bind(this) }
+                    fixedWidth        = { this.state.fixedWidth }
+                    fixed             = { ["thead","tfooter"] }
                 />
             </div>
         )
