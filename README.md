@@ -18,7 +18,8 @@
       "columnKey" : "name",           //keyname
       "total"     : "",               //該欄為統計，如：輸入文字就直接顯示文字，可空直就將該欄位相加得到總合
       "link"      : true,             //開啟該欄位連結
-      "path"      : "/xxxx/zzzz/aaaa" //欄位網址
+      "path"      : "/xxxx/zzzz/aaaa",//欄位網址
+      "sort"      : true              //排序開關 //status 0:一般排序 1:遞減 2:遞增
     },
     {
       "title"     : "鱼种",            //column名稱
