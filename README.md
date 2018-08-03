@@ -92,6 +92,8 @@
 | showLength       | showLength={showLength number}                            | columns 一次可顯示比數                        |
 | typeStyle        | typeStyle= "block" / "list"                               | Display method Block or Column              |
 | addClassName     | addClassName= "XXXX"                                      | Additional class name                       |
+| returnSort       | returnSort={this.returnSortFreeFunctionName.bind(this)}   | returnSortFreeFunctionName Name by yourself |
+
 
 ## Demo Image
 ### typeStyle : list
