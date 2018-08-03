@@ -7,7 +7,7 @@
 
 ## git
 ```sh
-  https://github.com/1987showsun/list-table-component-by-React-dev/edit/master/README.md
+  https://github.com/1987showsun/list-table-component-by-React-dev
 ```
 
 ## Ex columns json
