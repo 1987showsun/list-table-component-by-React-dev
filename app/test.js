@@ -7,8 +7,10 @@ import List  from './components/list';
 import thead                               from './public/json/thead.json';
 import data                                from './public/json/data.json';
 
-const total   = 23;
-const limit   = 10;
+const listtotal    = 23;
+const listlimit    = 10;
+const blocktotal   = 13;
+const blocklimit   = 10;
 
 export default class Router extends React.Component{
 
@@ -36,8 +38,8 @@ export default class Router extends React.Component{
                 </div>
                 <List 
                     match             = { this.props.match }
-                    total             = { total }
-                    limit             = { limit }
+                    total             = { listtotal }
+                    limit             = { listlimit }
                     columns           = { thead['test'] }
                     data              = { data['list'] }
                     currentPage       = { this.props.match['params']['current'] }
@@ -56,8 +58,8 @@ export default class Router extends React.Component{
                 <List 
                     typeStyle         = "block"
                     match             = { this.props.match }
-                    total             = { total }
-                    limit             = { limit }
+                    total             = { blocktotal }
+                    limit             = { blocklimit }
                     columns           = { thead['block'] }
                     data              = { data['block'] }
                     currentPage       = { this.props.match['params']['current'] }

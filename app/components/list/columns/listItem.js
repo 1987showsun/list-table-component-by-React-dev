@@ -1,9 +1,11 @@
 import React    from 'react';
 import { Link } from 'react-router-dom';
+import { FaPencilAlt,FaTrashAlt,FaLink,FaInfo } from 'react-icons/fa';
 
 //Components
 import Thead    from './thead';
 import Tfooter  from './tfooter';
+import TAction  from './taction';
 
 export default class ListItem extends React.Component{
 
@@ -43,7 +45,7 @@ export default class ListItem extends React.Component{
             data                : nextProps.tBody,
             tHeadKey            : nextProps.tHead['columnKey'] || "",
             title               : nextProps.tHead['title']     || "",
-            totalSwitch         : nextProps.totalSwitch,
+            totalSwitch         : nextProps.totalSwitch        || false,
             totalObj            : nextProps.totalObj           || {switch:false,text:""},
             fixedWidth          : nextProps.fixedWidth         || "",
             tHeadTop            : nextProps.tHeadTop           || 0,
@@ -81,25 +83,12 @@ export default class ListItem extends React.Component{
                                 );
                             }else{
                                 return (
-                                    <li key={i} className={`${this.state.tHeadKey}`}>
-                                        <div className="tool">
-                                            {
-                                                this.state.tHead[this.state.tHeadKey].map((item,b)=>{
-                                                    if( item['key']!="more" ){
-                                                        const itemStyle = item['style'] || {};
-
-                                                        return(
-                                                            <span key={b} className={`tool-btn ${item["key"]} ${item["icon"] || ""}`} title={item['text']||""} style={itemStyle}>{ item['text']||""  }</span>
-                                                        );
-                                                    }else{
-                                                        return(
-                                                            <Link key={b} className={`tool-btn ${item["key"]} ${item["icon"] || ""}`} title={item['text']||""} to="">{ item['text']||"" }</Link>
-                                                        );
-                                                    }
-                                                })
-                                            }
-                                        </div>
-                                    </li>
+                                    <TAction
+                                        key      = {i}
+                                        item     = {item}
+                                        tHeadKey = {this.state.tHeadKey}
+                                        tHead    = {this.state.tHead}
+                                    />
                                 );
                             }
                         })

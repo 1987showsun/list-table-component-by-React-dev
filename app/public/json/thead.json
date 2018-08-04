@@ -1,62 +1,64 @@
 {
     "test" : [
         {
-            "title"     : "鱼种",
-            "columnKey" : "name",
-            "total"     : "共计",
+            "title"     : "First Name",
+            "columnKey" : "firstname",
+            "total"     : "Total",
             "link"      : true,
-            "path"      : "info",
+            "path"      : "info"
+        },
+        {
+            "title"     : "Last Name",
+            "columnKey" : "lastname"
+        },
+        {
+            "title"     : "salary",
+            "columnKey" : "pay",
+            "total"     : "",
             "sort"      : true
         },
         {
-            "title"     : "炮倍",
-            "columnKey" : "rate",
+            "title"     : "Income",
+            "columnKey" : "income",
+            "total"     : "",
             "sort"      : true
         },
         {
-            "title"     : "单价",
-            "columnKey" : "fishMoney"
+            "title"     : "Age",
+            "columnKey" : "age",
+            "sort"      : true
         },
         {
-            "title"     : "总价值",
-            "columnKey" : "totalMoney",
-            "total"     : ""
+            "title"     : "Department",
+            "columnKey" : "department"
         },
         {
-            "title"     : "子弹收入",
-            "columnKey" : "bulletMoney"
+            "title"     : "Job",
+            "columnKey" : "job",
+            "sort"      : true
         },
         {
-            "title"     : "盈利",
-            "columnKey" : "earn",
-            "total"     : ""
+            "title"     : "Employee",
+            "columnKey" : "employee_id",
+            "sort"      : true
         },
         {
-            "title"     : "仍存活(条)",
-            "columnKey" : "alive",
-            "total"     : ""
-        },
-        {
-            "title"     : "被捕获",
-            "columnKey" : "dead"
-        },
-        {
-          "title"       : "動作",
+          "title"       : "Action",
           "columnKey"   : "action",
           "action"      : [
             {
               "key"   : "edit",
-              "text"  : "修改",
+              "text"  : "",
               "icon"  : ""
             },
             {
               "key"   : "delete",
-              "text"  : "刪除",
+              "text"  : "",
               "icon"  : ""
             },
             {
               "key"   : "info",
-              "text"  : "訊息",
+              "text"  : "",
               "icon"  : ""
             }
           ]
