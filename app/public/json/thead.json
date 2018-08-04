@@ -61,5 +61,20 @@
             }
           ]
         }
+    ],
+    "block" : [
+        {
+            "title"     : "Cover",          
+            "columnKey" : "cover",          
+            "link"      : true,             
+            "path"      : "/info/teams"     
+        },
+        {
+            "title"     : "Content",         
+            "columnKey" : "",                
+            "children"  : ["name","name_en"],
+            "link"      : true,              
+            "path"      : "/info/teams"
+        }
     ]
 }

@@ -52,6 +52,7 @@
 ```
 
 ## Ex Data json
+### typeSStyle : list
 ```js
   [
     {
@@ -67,6 +68,25 @@
     }
   ]
 ```
+### typeSStyle : block （固定）
+```js
+  [
+    {
+      "id"             : "1",
+      "cover"          : "",
+      "name"           : "名稱1",
+      "name_en"        : "abcd"
+    },
+    {...},
+    {
+      "id"             : "1",
+      "cover"          : "",
+      "name"           : "名稱1",
+      "name_en"        : "abcd"
+    }
+  ]
+```
+
 
 ## Ex instructions:
 ```js

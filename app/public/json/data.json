@@ -1,4 +1,5 @@
-[
+{
+  "list" : [
     {
       "id"             : "1",
       "name"           : "名稱1",
@@ -55,7 +56,7 @@
       "dead"           : ""
     },
     {
-        "id"             : "6",
+      "id"             : "6",
       "name"           : "名稱6",
       "rate"           : 100,
       "fishMoney"      : 1000,
@@ -65,4 +66,37 @@
       "alive"          : 120,
       "dead"           : ""
     }
+  ],
+  "block" : [
+    {
+      "id"           : 1,
+      "cover"        : "https://i.kfs.io/album/global/34984515,0v1/fit/500x500.jpg",
+      "name"         : "不愛我就拉",
+      "name_en"      : "If You Don’t Love Me, It’s Fine"
+    },
+    {
+      "id"           : 2,
+      "cover"        : "https://i.kfs.io/album/global/31535742,0v1/fit/500x500.jpg",
+      "name"         : "等你下課",
+      "name_en"      : "等你下課"
+    },
+    {
+      "id"           : 3,
+      "cover"        : "https://i.kfs.io/album/global/16161507,1v1/fit/500x500.jpg",
+      "name"         : "周杰倫的床邊故事",
+      "name_en"      : "周杰倫的床邊故事"
+    },
+    {
+      "id"           : 4,
+      "cover"        : "https://i.kfs.io/album/tw/5253367,2v1/fit/500x500.jpg",
+      "name"         : "哎呦，不錯哦",
+      "name_en"      : "哎呦，不錯哦"
+    },
+    {
+      "id"           : 5,
+      "cover"        : "https://i.kfs.io/album/tw/1517099,1v4/fit/500x500.jpg",
+      "name"         : "周杰倫【天臺】電影原聲帶",
+      "name_en"      : "周杰倫【天臺】電影原聲帶"
+    }
   ]
+}

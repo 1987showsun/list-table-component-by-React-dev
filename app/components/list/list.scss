@@ -153,24 +153,42 @@
         &.list-block-ul{
             >li{
                 figure{
-                    >a{
-                       overflow: hidden;
+                    width: 100%;
+                    img{
+                        width: 100%;
+                    }
+                    a{
+                        width             : 100%;
+                        overflow          : hidden;
+                        align-items       : center;
+                        display           : flex;
+                        flex-wrap         : wrap;
+                        text-decoration   : none;
+                        color             : #333;
                     }
                     figcaption{
                         display         : flex;
                         flex-wrap       : wrap; 
                         justify-content : center;
                         margin-top      : 5px;
-                        a{
-                            color         : #333;
-                        }
                         h3,p{
                             width         : 100%; 
+                            margin-bottom : 2px;
                             text-align    : center;
-                            margin-bottom : 0px;
+                            overflow      : hidden;
+                            white-space   : nowrap;
+                            text-overflow : ellipsis;
                         }
                         h3{ font-size     : 1.1em; }
-                        p { font-size     : 1em; }
+                        p {
+                            font-size     : 0.9em;
+                            &:first-child{
+                                font-size: 1em;
+                            }
+                            &:last-child{
+                                margin-bottom: 0px;
+                            }
+                        }
                     }
                 }
 

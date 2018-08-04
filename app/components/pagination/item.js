@@ -8,15 +8,17 @@ export default class PaginationItem extends React.Component{
         this.state = {
             path           : props.path           || "",
             serach         : props.serach         || "",
-            text           : props.text           || ""
+            text           : props.text           || "",
+            currentPage    : props.currentPage    || 1,
         }
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            path           : nextProps.path   || "",
-            serach         : nextProps.serach || "",
-            text           : nextProps.text   || ""
+            path           : nextProps.path        || "",
+            serach         : nextProps.serach      || "",
+            text           : nextProps.text        || "",
+            currentPage    : nextProps.currentPage || 1
         })
     }
 
@@ -27,7 +29,7 @@ export default class PaginationItem extends React.Component{
     render(){
         return(
             <li>
-                <Link className={`${ this.state.text==this.props.currentPage? "active" : "" }`} to={`${this.state.path}/${this.state.text}${this.state.serach}`} onClick={this.callback.bind(this,this.state.text)}>{this.state.text}</Link>
+                <Link className={`${ this.state.text==this.state.currentPage? "active" : "" }`} to={`${this.state.path}/${this.state.text}${this.state.serach}`} onClick={this.callback.bind(this,this.state.text)}>{this.state.text}</Link>
             </li>
         );
     }
