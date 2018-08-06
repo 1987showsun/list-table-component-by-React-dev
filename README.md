@@ -10,6 +10,8 @@
   https://github.com/1987showsun/list-table-component-by-React-dev
 ```
 
+## <a href="https://1987showsun.github.io/list-table-component-by-React-dev/index.html#/">Demo</a>
+
 ## Ex columns json
 ### typeSStyle : list
 ```js
