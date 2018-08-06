@@ -775,258 +775,6 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 
 /***/ }),
 /* 13 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-
-
-var createTransitionManager = function createTransitionManager() {
-  var prompt = null;
-
-  var setPrompt = function setPrompt(nextPrompt) {
-    __WEBPACK_IMPORTED_MODULE_0_warning___default()(prompt == null, 'A history supports only one prompt at a time');
-
-    prompt = nextPrompt;
-
-    return function () {
-      if (prompt === nextPrompt) prompt = null;
-    };
-  };
-
-  var confirmTransitionTo = function confirmTransitionTo(location, action, getUserConfirmation, callback) {
-    // TODO: If another transition starts while we're still confirming
-    // the previous one, we may end up in a weird state. Figure out the
-    // best way to handle this.
-    if (prompt != null) {
-      var result = typeof prompt === 'function' ? prompt(location, action) : prompt;
-
-      if (typeof result === 'string') {
-        if (typeof getUserConfirmation === 'function') {
-          getUserConfirmation(result, callback);
-        } else {
-          __WEBPACK_IMPORTED_MODULE_0_warning___default()(false, 'A history needs a getUserConfirmation function in order to use a prompt message');
-
-          callback(true);
-        }
-      } else {
-        // Return false from a transition hook to cancel the transition.
-        callback(result !== false);
-      }
-    } else {
-      callback(true);
-    }
-  };
-
-  var listeners = [];
-
-  var appendListener = function appendListener(fn) {
-    var isActive = true;
-
-    var listener = function listener() {
-      if (isActive) fn.apply(undefined, arguments);
-    };
-
-    listeners.push(listener);
-
-    return function () {
-      isActive = false;
-      listeners = listeners.filter(function (item) {
-        return item !== listener;
-      });
-    };
-  };
-
-  var notifyListeners = function notifyListeners() {
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    listeners.forEach(function (listener) {
-      return listener.apply(undefined, args);
-    });
-  };
-
-  return {
-    setPrompt: setPrompt,
-    confirmTransitionTo: confirmTransitionTo,
-    appendListener: appendListener,
-    notifyListeners: notifyListeners
-  };
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (createTransitionManager);
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-if (__webpack_require__.i({"NODE_ENV_REDUX_BUILD":true,"NODE_ENV_CLOSE_LOG":false}).NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(5);
-  var warning = __webpack_require__(11);
-  var ReactPropTypesSecret = __webpack_require__(16);
-  var loggedTypeFailures = {};
-}
-
-/**
- * Assert that the values match with the type specs.
- * Error messages are memorized and will only be shown once.
- *
- * @param {object} typeSpecs Map of name to a ReactPropType
- * @param {object} values Runtime values that need to be type-checked
- * @param {string} location e.g. "prop", "context", "child context"
- * @param {string} componentName Name of the component for error messages.
- * @param {?Function} getStack Returns the component stack.
- * @private
- */
-function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
-  if (__webpack_require__.i({"NODE_ENV_REDUX_BUILD":true,"NODE_ENV_CLOSE_LOG":false}).NODE_ENV !== 'production') {
-    for (var typeSpecName in typeSpecs) {
-      if (typeSpecs.hasOwnProperty(typeSpecName)) {
-        var error;
-        // Prop type validation may throw. In case they do, we don't want to
-        // fail the render phase where it didn't fail before. So we log it.
-        // After these have been cleaned up, we'll let them throw.
-        try {
-          // This is intentionally an invariant that gets caught. It's the same
-          // behavior as without this statement except with a better message.
-          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'the `prop-types` package, but received `%s`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
-          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
-        } catch (ex) {
-          error = ex;
-        }
-        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
-        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
-          // Only monitor this failure once because there tends to be a lot of the
-          // same error.
-          loggedTypeFailures[error.message] = true;
-
-          var stack = getStack ? getStack() : '';
-
-          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
-        }
-      }
-    }
-  }
-}
-
-module.exports = checkPropTypes;
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
-module.exports = ReactPropTypesSecret;
-
-
-/***/ }),
-/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // THIS FILE IS AUTO GENERATED
@@ -4004,6 +3752,258 @@ module.exports.FaYenSign = function (props) {
 
 
 /***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
+
+
+var createTransitionManager = function createTransitionManager() {
+  var prompt = null;
+
+  var setPrompt = function setPrompt(nextPrompt) {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(prompt == null, 'A history supports only one prompt at a time');
+
+    prompt = nextPrompt;
+
+    return function () {
+      if (prompt === nextPrompt) prompt = null;
+    };
+  };
+
+  var confirmTransitionTo = function confirmTransitionTo(location, action, getUserConfirmation, callback) {
+    // TODO: If another transition starts while we're still confirming
+    // the previous one, we may end up in a weird state. Figure out the
+    // best way to handle this.
+    if (prompt != null) {
+      var result = typeof prompt === 'function' ? prompt(location, action) : prompt;
+
+      if (typeof result === 'string') {
+        if (typeof getUserConfirmation === 'function') {
+          getUserConfirmation(result, callback);
+        } else {
+          __WEBPACK_IMPORTED_MODULE_0_warning___default()(false, 'A history needs a getUserConfirmation function in order to use a prompt message');
+
+          callback(true);
+        }
+      } else {
+        // Return false from a transition hook to cancel the transition.
+        callback(result !== false);
+      }
+    } else {
+      callback(true);
+    }
+  };
+
+  var listeners = [];
+
+  var appendListener = function appendListener(fn) {
+    var isActive = true;
+
+    var listener = function listener() {
+      if (isActive) fn.apply(undefined, arguments);
+    };
+
+    listeners.push(listener);
+
+    return function () {
+      isActive = false;
+      listeners = listeners.filter(function (item) {
+        return item !== listener;
+      });
+    };
+  };
+
+  var notifyListeners = function notifyListeners() {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    listeners.forEach(function (listener) {
+      return listener.apply(undefined, args);
+    });
+  };
+
+  return {
+    setPrompt: setPrompt,
+    confirmTransitionTo: confirmTransitionTo,
+    appendListener: appendListener,
+    notifyListeners: notifyListeners
+  };
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (createTransitionManager);
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+if (__webpack_require__.i({"NODE_ENV_REDUX_BUILD":true,"NODE_ENV_CLOSE_LOG":false}).NODE_ENV !== 'production') {
+  var invariant = __webpack_require__(5);
+  var warning = __webpack_require__(11);
+  var ReactPropTypesSecret = __webpack_require__(17);
+  var loggedTypeFailures = {};
+}
+
+/**
+ * Assert that the values match with the type specs.
+ * Error messages are memorized and will only be shown once.
+ *
+ * @param {object} typeSpecs Map of name to a ReactPropType
+ * @param {object} values Runtime values that need to be type-checked
+ * @param {string} location e.g. "prop", "context", "child context"
+ * @param {string} componentName Name of the component for error messages.
+ * @param {?Function} getStack Returns the component stack.
+ * @private
+ */
+function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
+  if (__webpack_require__.i({"NODE_ENV_REDUX_BUILD":true,"NODE_ENV_CLOSE_LOG":false}).NODE_ENV !== 'production') {
+    for (var typeSpecName in typeSpecs) {
+      if (typeSpecs.hasOwnProperty(typeSpecName)) {
+        var error;
+        // Prop type validation may throw. In case they do, we don't want to
+        // fail the render phase where it didn't fail before. So we log it.
+        // After these have been cleaned up, we'll let them throw.
+        try {
+          // This is intentionally an invariant that gets caught. It's the same
+          // behavior as without this statement except with a better message.
+          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'the `prop-types` package, but received `%s`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
+          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
+        } catch (ex) {
+          error = ex;
+        }
+        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
+        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
+          // Only monitor this failure once because there tends to be a lot of the
+          // same error.
+          loggedTypeFailures[error.message] = true;
+
+          var stack = getStack ? getStack() : '';
+
+          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
+        }
+      }
+    }
+  }
+}
+
+module.exports = checkPropTypes;
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+
+/***/ }),
 /* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5672,7 +5672,7 @@ _reactDom2.default.render(_react2.default.createElement(Index, null), document.g
 /* 33 */
 /***/ (function(module, exports) {
 
-module.exports = {"list":[{"id":"1","firstname":"Showsun","lastname":"Li","pay":80000,"income":1328000,"age":31,"department":"Frontend","job":"Supervisor","employee_id":"TW-00009"},{"id":"2","firstname":"PanPan","lastname":"Pan","pay":75000,"income":1200000,"age":30,"department":"Frontend","job":"Engineer","employee_id":"TW-00012"},{"id":"3","firstname":"Jane","lastname":"Hsu","pay":65000,"income":1040000,"age":28,"department":"Frontend","job":"Engineer","employee_id":"TW-00022"},{"id":"4","firstname":"Donnie","lastname":"Lee","pay":75000,"income":1200000,"age":29,"department":"Ops","job":"Supervisor","employee_id":"TW-00007"},{"id":"5","firstname":"KoKo","lastname":"Lin","pay":68000,"income":1088000,"age":33,"department":"Backend","job":"Engineer","employee_id":"TW-00018"},{"id":"6","firstname":"Zoe","lastname":"Ma","pay":85000,"income":1360000,"age":34,"department":"Backend","job":"Supervisor","employee_id":"TW-00021"}],"block":[{"id":1,"cover":"https://i.kfs.io/album/global/34984515,0v1/fit/500x500.jpg","name":"不愛我就拉","name_en":"If You Don’t Love Me, It’s Fine"},{"id":2,"cover":"https://i.kfs.io/album/global/31535742,0v1/fit/500x500.jpg","name":"等你下課","name_en":"等你下課"},{"id":3,"cover":"https://i.kfs.io/album/global/16161507,1v1/fit/500x500.jpg","name":"周杰倫的床邊故事","name_en":"周杰倫的床邊故事"},{"id":4,"cover":"https://i.kfs.io/album/tw/5253367,2v1/fit/500x500.jpg","name":"哎呦，不錯哦","name_en":"哎呦，不錯哦"},{"id":5,"cover":"https://i.kfs.io/album/tw/1517099,1v4/fit/500x500.jpg","name":"周杰倫【天臺】電影原聲帶","name_en":"周杰倫【天臺】電影原聲帶"}]}
+module.exports = {"list":[{"id":"1","firstname":"Showsun","lastname":"Li","pay":80000,"income":1328000,"age":31,"department":"Frontend","job":"Supervisor","employee_id":"TW-00009"},{"id":"2","firstname":"PanPan","lastname":"Pan","pay":75000,"income":1200000,"age":30,"department":"Frontend","job":"Engineer","employee_id":"TW-00012"},{"id":"3","firstname":"Jane","lastname":"Hsu","pay":65000,"income":1040000,"age":28,"department":"Frontend","job":"Engineer","employee_id":"TW-00022"},{"id":"4","firstname":"Donnie","lastname":"Lee","pay":75000,"income":1200000,"age":29,"department":"Ops","job":"Supervisor","employee_id":"TW-00007"},{"id":"5","firstname":"KoKo","lastname":"Lin","pay":68000,"income":1088000,"age":33,"department":"Backend","job":"Engineer","employee_id":"TW-00018"},{"id":"6","firstname":"Zoe","lastname":"Ma","pay":85000,"income":1360000,"age":34,"department":"Backend","job":"Supervisor","employee_id":"TW-00021"}],"block":[{"id":1,"cover":"https://i.kfs.io/album/global/34984515,0v1/fit/500x500.jpg","name":"不愛我就拉","name_en":"If You Don’t Love Me, It’s Fine"},{"id":2,"cover":"https://i.kfs.io/album/global/31535742,0v1/fit/500x500.jpg","name":"等你下課","name_en":"等你下課"},{"id":3,"cover":"https://i.kfs.io/album/global/16161507,1v1/fit/500x500.jpg","name":"周杰倫的床邊故事","name_en":"周杰倫的床邊故事"},{"id":4,"cover":"https://i.kfs.io/album/global/37312430,0v1/fit/500x500.jpg","name":"Summer Nights","name_en":"Summer Nights"},{"id":5,"cover":"https://i.kfs.io/album/tw/1517099,1v4/fit/500x500.jpg","name":"周杰倫【天臺】電影原聲帶","name_en":"周杰倫【天臺】電影原聲帶"},{"id":6,"cover":"https://i.kfs.io/album/tw/5253367,2v1/fit/500x500.jpg","name":"哎呦，不錯哦","name_en":"哎呦，不錯哦"},{"id":7,"cover":"https://i.kfs.io/album/global/29161782,0v1/fit/500x500.jpg","name":"One More Time","name_en":"One More Time"}]}
 
 /***/ }),
 /* 34 */
@@ -5898,7 +5898,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(6);
 
-var _fa = __webpack_require__(17);
+var _fa = __webpack_require__(13);
 
 var _thead = __webpack_require__(41);
 
@@ -6190,7 +6190,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(6);
 
-var _fa = __webpack_require__(17);
+var _fa = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6432,7 +6432,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _fa = __webpack_require__(17);
+var _fa = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6724,6 +6724,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(6);
 
+var _fa = __webpack_require__(13);
+
 var _item = __webpack_require__(44);
 
 var _item2 = _interopRequireDefault(_item);
@@ -6752,10 +6754,11 @@ var Pagination = function (_React$Component) {
         _this.state = {
             paginationStyle: props.paginationStyle || "model1",
             match: props.match || {},
+            currentPage: props.currentPage || 1,
             path: props.path || "",
             serach: props.serach || "",
             total: props.total || 0,
-            limit: props.limit || 0,
+            limit: props.limit || 10,
             pagination: []
         };
         return _this;
@@ -6773,9 +6776,10 @@ var Pagination = function (_React$Component) {
 
             this.setState({
                 paginationStyle: nextProps.paginationStyle || "model1",
-                total: nextProps.total,
-                limit: nextProps.limit,
+                total: nextProps.total || 0,
+                limit: nextProps.limit || 10,
                 match: nextProps.match || {},
+                currentPage: nextProps.currentPage || 1,
                 path: nextProps.path || "",
                 serach: nextProps.serach || ""
             }, function () {
@@ -6798,13 +6802,16 @@ var Pagination = function (_React$Component) {
                     break;
 
                 case "model2":
-                    var match = this.state.match;
-                    var current = match['params'] != undefined ? Number(match['params']['current']) : 1;
+                    var current = Number(this.state.currentPage);
                     if (current == 1) {
                         pagination[0] = _react2.default.createElement(
                             'li',
                             { key: '1', className: 'pointerEvents' },
-                            _react2.default.createElement(_reactRouterDom.Link, { to: this.state.path + '/' + (current - 1) + this.state.serach, onClick: this.callback.bind(this, current - 1), className: 'changePageBtn fas fa-angle-left' })
+                            _react2.default.createElement(
+                                _reactRouterDom.Link,
+                                { to: this.state.path + '/' + (current - 1) + this.state.serach, onClick: this.callback.bind(this, current - 1), className: 'changePageBtn' },
+                                _react2.default.createElement(_fa.FaAngleLeft, null)
+                            )
                         );
                         pagination[1] = _react2.default.createElement(
                             'li',
@@ -6814,13 +6821,21 @@ var Pagination = function (_React$Component) {
                         pagination[2] = _react2.default.createElement(
                             'li',
                             { key: '3' },
-                            _react2.default.createElement(_reactRouterDom.Link, { to: this.state.path + '/' + (current + 1) + this.state.serach, onClick: this.callback.bind(this, current + 1), className: 'changePageBtn fas fa-angle-right' })
+                            _react2.default.createElement(
+                                _reactRouterDom.Link,
+                                { to: this.state.path + '/' + (current + 1) + this.state.serach, onClick: this.callback.bind(this, current + 1), className: 'changePageBtn' },
+                                _react2.default.createElement(_fa.FaAngleRight, null)
+                            )
                         );
                     } else if (current >= totalPage) {
                         pagination[0] = _react2.default.createElement(
                             'li',
                             { key: '1' },
-                            _react2.default.createElement(_reactRouterDom.Link, { to: this.state.path + '/' + (current - 1) + this.state.serach, onClick: this.callback.bind(this, current - 1), className: 'changePageBtn fas fa-angle-left' })
+                            _react2.default.createElement(
+                                _reactRouterDom.Link,
+                                { to: this.state.path + '/' + (current - 1) + this.state.serach, onClick: this.callback.bind(this, current - 1), className: 'changePageBtn' },
+                                _react2.default.createElement(_fa.FaAngleLeft, null)
+                            )
                         );
                         pagination[1] = _react2.default.createElement(
                             'li',
@@ -6830,13 +6845,21 @@ var Pagination = function (_React$Component) {
                         pagination[2] = _react2.default.createElement(
                             'li',
                             { key: '3', className: 'pointerEvents' },
-                            _react2.default.createElement(_reactRouterDom.Link, { to: this.state.path + '/' + (current + 1) + this.state.serach, onClick: this.callback.bind(this, current + 1), className: 'changePageBtn fas fa-angle-right' })
+                            _react2.default.createElement(
+                                _reactRouterDom.Link,
+                                { to: this.state.path + '/' + (current + 1) + this.state.serach, onClick: this.callback.bind(this, current + 1), className: 'changePageBtn' },
+                                _react2.default.createElement(_fa.FaAngleRight, null)
+                            )
                         );
                     } else {
                         pagination[0] = _react2.default.createElement(
                             'li',
                             { key: '1' },
-                            _react2.default.createElement(_reactRouterDom.Link, { to: this.state.path + '/' + (current - 1) + this.state.serach, onClick: this.callback.bind(this, current - 1), className: 'changePageBtn fas fa-angle-left' })
+                            _react2.default.createElement(
+                                _reactRouterDom.Link,
+                                { to: this.state.path + '/' + (current - 1) + this.state.serach, onClick: this.callback.bind(this, current - 1), className: 'changePageBtn' },
+                                _react2.default.createElement(_fa.FaAngleLeft, null)
+                            )
                         );
                         pagination[1] = _react2.default.createElement(
                             'li',
@@ -6846,7 +6869,11 @@ var Pagination = function (_React$Component) {
                         pagination[2] = _react2.default.createElement(
                             'li',
                             { key: '3' },
-                            _react2.default.createElement(_reactRouterDom.Link, { to: this.state.path + '/' + (current + 1) + this.state.serach, onClick: this.callback.bind(this, current + 1), className: 'changePageBtn fas fa-angle-right' })
+                            _react2.default.createElement(
+                                _reactRouterDom.Link,
+                                { to: this.state.path + '/' + (current + 1) + this.state.serach, onClick: this.callback.bind(this, current + 1), className: 'changePageBtn' },
+                                _react2.default.createElement(_fa.FaAngleRight, null)
+                            )
                         );
                     }
                     break;
@@ -7105,7 +7132,6 @@ var Router = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            console.log(_data2.default['list']);
             return _react2.default.createElement(
                 'div',
                 null,
@@ -7125,7 +7151,7 @@ var Router = function (_React$Component) {
                     columns: _thead2.default['test'],
                     data: _data2.default['list'],
                     currentPage: this.props.match['params']['current'],
-                    paginationStyle: 'model1',
+                    paginationStyle: 'model2',
                     paginationPath: '/asd',
                     paginationSearch: '?testSearch=zzzz',
                     returnCurrentPage: this.returnCurrentPage.bind(this),
@@ -7171,12 +7197,12 @@ exports.default = Router;
 /* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)(false);
+exports = module.exports = __webpack_require__(14)(false);
 // imports
 
 
 // module
-exports.push([module.i, ".list-wrap {\n  width: 100%;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-flex-wrap: wrap;\n      -ms-flex-wrap: wrap;\n          flex-wrap: wrap;\n  background: #fff;\n  padding: 5px 5px 55px 5px;\n  -webkit-flex-direction: column;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  position: relative; }\n  .list-wrap.limit-height {\n    height: 100%; }\n  .list-wrap p {\n    margin-bottom: 0px; }\n  .list-wrap a {\n    color: #5f99f5; }\n  .list-wrap ul {\n    width: 100%;\n    margin-bottom: 0px;\n    list-style-type: none; }\n    .list-wrap ul > li {\n      display: -webkit-inline-flex;\n      display: -ms-inline-flexbox;\n      display: inline-flex; }\n    .list-wrap ul.list-ul {\n      height: 100%;\n      display: -webkit-flex;\n      display: -ms-flexbox;\n      display: flex;\n      overflow-y: auto;\n      -webkit-align-items: flex-start;\n          -ms-flex-align: start;\n              align-items: flex-start;\n      position: relative; }\n      .list-wrap ul.list-ul > li {\n        width: 100%;\n        background-color: #fff; }\n        .list-wrap ul.list-ul > li.action {\n          -webkit-flex: 0;\n              -ms-flex: 0;\n                  flex: 0;\n          position: -webkit-sticky;\n          position: sticky;\n          z-index: 10;\n          right: -1px; }\n        .list-wrap ul.list-ul > li > ul {\n          width: 100%;\n          border-bottom: 1px solid #e8e8e8; }\n          .list-wrap ul.list-ul > li > ul > li {\n            width: 100%;\n            min-height: 45px;\n            padding: 0px 10px;\n            font-size: 0.7em;\n            display: -webkit-flex;\n            display: -ms-flexbox;\n            display: flex;\n            -webkit-align-items: center;\n                -ms-flex-align: center;\n                    align-items: center;\n            border-bottom: 1px solid #e8e8e8; }\n            .list-wrap ul.list-ul > li > ul > li p {\n              white-space: nowrap; }\n            .list-wrap ul.list-ul > li > ul > li.t-head {\n              width: inherit;\n              background: #fafafa;\n              font-size: 0.8em;\n              font-weight: bold; }\n              .list-wrap ul.list-ul > li > ul > li.t-head span {\n                width: 25px;\n                height: 25px;\n                display: -webkit-inline-flex;\n                display: -ms-inline-flexbox;\n                display: inline-flex;\n                margin-left: 10px;\n                color: #aaa; }\n                .list-wrap ul.list-ul > li > ul > li.t-head span.sort {\n                  cursor: pointer;\n                  font-size: 1.1em;\n                  -webkit-align-items: center;\n                      -ms-flex-align: center;\n                          align-items: center;\n                  -webkit-justify-content: center;\n                      -ms-flex-pack: center;\n                          justify-content: center; }\n              .list-wrap ul.list-ul > li > ul > li.t-head.sticky {\n                position: -webkit-sticky;\n                position: sticky;\n                z-index: 5;\n                top: 0px; }\n            .list-wrap ul.list-ul > li > ul > li.action {\n              -webkit-flex-grow: 1;\n                  -ms-flex-positive: 1;\n                      flex-grow: 1;\n              -webkit-justify-content: center;\n                  -ms-flex-pack: center;\n                      justify-content: center; }\n              .list-wrap ul.list-ul > li > ul > li.action .tool {\n                display: -webkit-flex;\n                display: -ms-flexbox;\n                display: flex; }\n                .list-wrap ul.list-ul > li > ul > li.action .tool span, .list-wrap ul.list-ul > li > ul > li.action .tool a {\n                  min-width: 30px;\n                  height: 30px;\n                  display: -webkit-inline-flex;\n                  display: -ms-inline-flexbox;\n                  display: inline-flex;\n                  background: #000;\n                  margin-right: 10px;\n                  border-radius: 100px;\n                  -webkit-align-items: center;\n                      -ms-flex-align: center;\n                          align-items: center;\n                  -webkit-justify-content: center;\n                      -ms-flex-pack: center;\n                          justify-content: center;\n                  color: #fff;\n                  font-size: 0.6em;\n                  opacity: 0.7;\n                  cursor: pointer; }\n                  .list-wrap ul.list-ul > li > ul > li.action .tool span:last-child, .list-wrap ul.list-ul > li > ul > li.action .tool a:last-child {\n                    margin-right: 0px; }\n                  .list-wrap ul.list-ul > li > ul > li.action .tool span:hover, .list-wrap ul.list-ul > li > ul > li.action .tool a:hover {\n                    opacity: 1; }\n                  .list-wrap ul.list-ul > li > ul > li.action .tool span.tool-btn.delete, .list-wrap ul.list-ul > li > ul > li.action .tool a.tool-btn.delete {\n                    background: #ec1809; }\n                  .list-wrap ul.list-ul > li > ul > li.action .tool span.tool-btn.edit, .list-wrap ul.list-ul > li > ul > li.action .tool a.tool-btn.edit {\n                    background: #4CAF50; }\n                  .list-wrap ul.list-ul > li > ul > li.action .tool span.tool-btn.more, .list-wrap ul.list-ul > li > ul > li.action .tool a.tool-btn.more {\n                    background: #5f99f5; }\n            .list-wrap ul.list-ul > li > ul > li:last-child {\n              border-bottom: none; }\n            .list-wrap ul.list-ul > li > ul > li.list-total {\n              background: #efefef;\n              color: #f00; }\n              .list-wrap ul.list-ul > li > ul > li.list-total.sticky {\n                position: -webkit-sticky;\n                position: sticky;\n                z-index: 5;\n                bottom: 0px; }\n    .list-wrap ul.list-block-ul > li figure {\n      width: 100%; }\n      .list-wrap ul.list-block-ul > li figure img {\n        width: 100%; }\n      .list-wrap ul.list-block-ul > li figure a {\n        width: 100%;\n        overflow: hidden;\n        -webkit-align-items: center;\n            -ms-flex-align: center;\n                align-items: center;\n        display: -webkit-flex;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-flex-wrap: wrap;\n            -ms-flex-wrap: wrap;\n                flex-wrap: wrap;\n        text-decoration: none;\n        color: #333; }\n      .list-wrap ul.list-block-ul > li figure figcaption {\n        display: -webkit-flex;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-flex-wrap: wrap;\n            -ms-flex-wrap: wrap;\n                flex-wrap: wrap;\n        -webkit-justify-content: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        margin-top: 5px; }\n        .list-wrap ul.list-block-ul > li figure figcaption h3, .list-wrap ul.list-block-ul > li figure figcaption p {\n          width: 100%;\n          margin-bottom: 2px;\n          text-align: center;\n          overflow: hidden;\n          white-space: nowrap;\n          text-overflow: ellipsis; }\n        .list-wrap ul.list-block-ul > li figure figcaption h3 {\n          font-size: 1.1em; }\n        .list-wrap ul.list-block-ul > li figure figcaption p {\n          font-size: 0.9em; }\n          .list-wrap ul.list-block-ul > li figure figcaption p:first-child {\n            font-size: 1em; }\n          .list-wrap ul.list-block-ul > li figure figcaption p:last-child {\n            margin-bottom: 0px; }\n    @media all and (min-width: 1280px) {\n      .list-wrap ul.list-block-ul > li {\n        width: 16.66%;\n        padding: 10px; } }\n    @media all and (min-width: 900px) and (max-width: 1279px) {\n      .list-wrap ul.list-block-ul > li {\n        width: 16.66%;\n        padding: 5px; } }\n    @media all and (min-width: 480px) and (max-width: 899px) {\n      .list-wrap ul.list-block-ul > li {\n        width: 33.3333%;\n        padding: 5px; } }\n    @media all and (max-width: 479px) {\n      .list-wrap ul.list-block-ul > li {\n        width: 50%;\n        padding: 5px; } }\n    .list-wrap ul.list-block-ul[data-type=singer] figure > a {\n      border-radius: 300px; }\n", ""]);
+exports.push([module.i, ".list-wrap {\n  width: 100%;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-flex-wrap: wrap;\n      -ms-flex-wrap: wrap;\n          flex-wrap: wrap;\n  background: #fff;\n  padding: 5px 5px 55px 5px;\n  -webkit-flex-direction: column;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  position: relative; }\n  .list-wrap.limit-height {\n    height: 100%; }\n  .list-wrap p {\n    margin-bottom: 0px; }\n  .list-wrap a {\n    color: #5f99f5; }\n  .list-wrap ul {\n    width: 100%;\n    margin-bottom: 0px;\n    list-style-type: none; }\n    .list-wrap ul > li {\n      display: -webkit-inline-flex;\n      display: -ms-inline-flexbox;\n      display: inline-flex; }\n    .list-wrap ul.list-ul {\n      height: 100%;\n      display: -webkit-flex;\n      display: -ms-flexbox;\n      display: flex;\n      overflow-y: auto;\n      -webkit-align-items: flex-start;\n          -ms-flex-align: start;\n              align-items: flex-start;\n      position: relative; }\n      .list-wrap ul.list-ul > li {\n        width: 100%;\n        background-color: #fff; }\n        .list-wrap ul.list-ul > li:first-child, .list-wrap ul.list-ul > li.action {\n          position: -webkit-sticky;\n          position: sticky;\n          z-index: 10;\n          box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); }\n        .list-wrap ul.list-ul > li:first-child {\n          left: 0px; }\n        .list-wrap ul.list-ul > li.action {\n          -webkit-flex: 0;\n              -ms-flex: 0;\n                  flex: 0;\n          right: 0px; }\n        .list-wrap ul.list-ul > li > ul {\n          width: 100%;\n          border-bottom: 1px solid #e8e8e8; }\n          .list-wrap ul.list-ul > li > ul > li {\n            width: 100%;\n            min-height: 45px;\n            padding: 0px 10px;\n            font-size: 0.7em;\n            display: -webkit-flex;\n            display: -ms-flexbox;\n            display: flex;\n            -webkit-align-items: center;\n                -ms-flex-align: center;\n                    align-items: center;\n            border-bottom: 1px solid #e8e8e8; }\n            .list-wrap ul.list-ul > li > ul > li p {\n              white-space: nowrap; }\n            .list-wrap ul.list-ul > li > ul > li.t-head {\n              width: inherit;\n              background: #fafafa;\n              font-size: 0.8em;\n              font-weight: bold; }\n              .list-wrap ul.list-ul > li > ul > li.t-head span {\n                width: 25px;\n                height: 25px;\n                display: -webkit-inline-flex;\n                display: -ms-inline-flexbox;\n                display: inline-flex;\n                margin-left: 10px;\n                color: #aaa; }\n                .list-wrap ul.list-ul > li > ul > li.t-head span.sort {\n                  cursor: pointer;\n                  font-size: 1.1em;\n                  -webkit-align-items: center;\n                      -ms-flex-align: center;\n                          align-items: center;\n                  -webkit-justify-content: center;\n                      -ms-flex-pack: center;\n                          justify-content: center; }\n              .list-wrap ul.list-ul > li > ul > li.t-head.sticky {\n                position: -webkit-sticky;\n                position: sticky;\n                z-index: 5;\n                top: 0px; }\n            .list-wrap ul.list-ul > li > ul > li.action {\n              -webkit-flex-grow: 1;\n                  -ms-flex-positive: 1;\n                      flex-grow: 1;\n              -webkit-justify-content: center;\n                  -ms-flex-pack: center;\n                      justify-content: center; }\n              .list-wrap ul.list-ul > li > ul > li.action .tool {\n                display: -webkit-flex;\n                display: -ms-flexbox;\n                display: flex; }\n                .list-wrap ul.list-ul > li > ul > li.action .tool span, .list-wrap ul.list-ul > li > ul > li.action .tool a {\n                  min-width: 30px;\n                  height: 30px;\n                  display: -webkit-inline-flex;\n                  display: -ms-inline-flexbox;\n                  display: inline-flex;\n                  background: #000;\n                  margin-right: 10px;\n                  border-radius: 100px;\n                  -webkit-align-items: center;\n                      -ms-flex-align: center;\n                          align-items: center;\n                  -webkit-justify-content: center;\n                      -ms-flex-pack: center;\n                          justify-content: center;\n                  color: #fff;\n                  font-size: 0.6em;\n                  opacity: 0.7;\n                  cursor: pointer; }\n                  .list-wrap ul.list-ul > li > ul > li.action .tool span:last-child, .list-wrap ul.list-ul > li > ul > li.action .tool a:last-child {\n                    margin-right: 0px; }\n                  .list-wrap ul.list-ul > li > ul > li.action .tool span:hover, .list-wrap ul.list-ul > li > ul > li.action .tool a:hover {\n                    opacity: 1; }\n                  .list-wrap ul.list-ul > li > ul > li.action .tool span.tool-btn.delete, .list-wrap ul.list-ul > li > ul > li.action .tool a.tool-btn.delete {\n                    background: #ec1809; }\n                  .list-wrap ul.list-ul > li > ul > li.action .tool span.tool-btn.edit, .list-wrap ul.list-ul > li > ul > li.action .tool a.tool-btn.edit {\n                    background: #4CAF50; }\n                  .list-wrap ul.list-ul > li > ul > li.action .tool span.tool-btn.more, .list-wrap ul.list-ul > li > ul > li.action .tool a.tool-btn.more {\n                    background: #5f99f5; }\n            .list-wrap ul.list-ul > li > ul > li:last-child {\n              border-bottom: none; }\n            .list-wrap ul.list-ul > li > ul > li.list-total {\n              background: #efefef;\n              color: #f00; }\n              .list-wrap ul.list-ul > li > ul > li.list-total.sticky {\n                position: -webkit-sticky;\n                position: sticky;\n                z-index: 5;\n                bottom: 0px; }\n    .list-wrap ul.list-block-ul > li figure {\n      width: 100%; }\n      .list-wrap ul.list-block-ul > li figure img {\n        width: 100%; }\n      .list-wrap ul.list-block-ul > li figure a {\n        width: 100%;\n        overflow: hidden;\n        -webkit-align-items: center;\n            -ms-flex-align: center;\n                align-items: center;\n        display: -webkit-flex;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-flex-wrap: wrap;\n            -ms-flex-wrap: wrap;\n                flex-wrap: wrap;\n        text-decoration: none;\n        color: #333; }\n      .list-wrap ul.list-block-ul > li figure figcaption {\n        display: -webkit-flex;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-flex-wrap: wrap;\n            -ms-flex-wrap: wrap;\n                flex-wrap: wrap;\n        -webkit-justify-content: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        margin-top: 5px; }\n        .list-wrap ul.list-block-ul > li figure figcaption h3, .list-wrap ul.list-block-ul > li figure figcaption p {\n          width: 100%;\n          margin-bottom: 2px;\n          text-align: center;\n          overflow: hidden;\n          white-space: nowrap;\n          text-overflow: ellipsis; }\n        .list-wrap ul.list-block-ul > li figure figcaption h3 {\n          font-size: 1.1em; }\n        .list-wrap ul.list-block-ul > li figure figcaption p:last-child {\n          margin-bottom: 0px; }\n    @media all and (min-width: 1280px) {\n      .list-wrap ul.list-block-ul > li {\n        width: 12.5%;\n        padding: 10px; }\n        .list-wrap ul.list-block-ul > li figure figcaption p {\n          font-size: 0.9em; }\n          .list-wrap ul.list-block-ul > li figure figcaption p:first-child {\n            font-size: 1.1em; } }\n    @media all and (min-width: 900px) and (max-width: 1279px) {\n      .list-wrap ul.list-block-ul > li {\n        width: 16.66%;\n        padding: 5px; }\n        .list-wrap ul.list-block-ul > li figure figcaption p {\n          font-size: 0.8em; }\n          .list-wrap ul.list-block-ul > li figure figcaption p:first-child {\n            font-size: 0.9em; } }\n    @media all and (min-width: 480px) and (max-width: 899px) {\n      .list-wrap ul.list-block-ul > li {\n        width: 33.3333%;\n        padding: 5px; }\n        .list-wrap ul.list-block-ul > li figure figcaption p {\n          font-size: 0.7em; }\n          .list-wrap ul.list-block-ul > li figure figcaption p:first-child {\n            font-size: 0.9em; } }\n    @media all and (max-width: 479px) {\n      .list-wrap ul.list-block-ul > li {\n        width: 50%;\n        padding: 5px; }\n        .list-wrap ul.list-block-ul > li figure figcaption p {\n          font-size: 0.7em; }\n          .list-wrap ul.list-block-ul > li figure figcaption p:first-child {\n            font-size: 0.9em; } }\n    .list-wrap ul.list-block-ul[data-type=singer] figure > a {\n      border-radius: 300px; }\n", ""]);
 
 // exports
 
@@ -7185,7 +7211,7 @@ exports.push([module.i, ".list-wrap {\n  width: 100%;\n  display: -webkit-flex;\
 /* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)(false);
+exports = module.exports = __webpack_require__(14)(false);
 // imports
 
 
@@ -7199,7 +7225,7 @@ exports.push([module.i, ".pagination-wrap {\n  width: 100%;\n  display: -webkit-
 /* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)(false);
+exports = module.exports = __webpack_require__(14)(false);
 // imports
 
 
@@ -7432,7 +7458,7 @@ module.exports = isTextNode;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(26);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -7736,7 +7762,7 @@ var createBrowserHistory = function createBrowserHistory() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(26);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -8055,7 +8081,7 @@ var createHashHistory = function createHashHistory() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PathUtils__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__createTransitionManager__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__createTransitionManager__ = __webpack_require__(15);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -18822,7 +18848,7 @@ exports['default'] = index;
 
 var emptyFunction = __webpack_require__(4);
 var invariant = __webpack_require__(5);
-var ReactPropTypesSecret = __webpack_require__(16);
+var ReactPropTypesSecret = __webpack_require__(17);
 
 module.exports = function() {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -18890,8 +18916,8 @@ var invariant = __webpack_require__(5);
 var warning = __webpack_require__(11);
 var assign = __webpack_require__(9);
 
-var ReactPropTypesSecret = __webpack_require__(16);
-var checkPropTypes = __webpack_require__(15);
+var ReactPropTypesSecret = __webpack_require__(17);
+var checkPropTypes = __webpack_require__(16);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -19448,7 +19474,7 @@ var warning = __webpack_require__(11);
 var ExecutionEnvironment = __webpack_require__(22);
 var _assign = __webpack_require__(9);
 var emptyFunction = __webpack_require__(4);
-var checkPropTypes = __webpack_require__(15);
+var checkPropTypes = __webpack_require__(16);
 var getActiveElement = __webpack_require__(24);
 var shallowEqual = __webpack_require__(25);
 var containsNode = __webpack_require__(23);
@@ -38133,7 +38159,7 @@ var invariant = __webpack_require__(5);
 var emptyObject = __webpack_require__(10);
 var warning = __webpack_require__(11);
 var emptyFunction = __webpack_require__(4);
-var checkPropTypes = __webpack_require__(15);
+var checkPropTypes = __webpack_require__(16);
 
 // TODO: this is special because it gets imported during build.
 
