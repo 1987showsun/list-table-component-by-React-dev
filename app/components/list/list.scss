@@ -55,11 +55,17 @@
             >li{
                 width            : 100%;
                 background-color : #fff;
-                &.action{
-                    flex    : 0;
+                &:first-child,&.action{
                     position       : sticky;
                     z-index        : 10;
-                    right          : -1px;
+                    box-shadow     : 0px 0px 5px rgba(0,0,0,0.1); 
+                }
+                &:first-child{
+                    left           : 0px;
+                }
+                &.action{
+                    flex           : 0;
+                    right          : 0px;
                 }
                 >ul{
                     width           : 100%;
@@ -185,10 +191,6 @@
                         }
                         h3{ font-size     : 1.1em; }
                         p {
-                            font-size     : 0.9em;
-                            &:first-child{
-                                font-size: 1em;
-                            }
                             &:last-child{
                                 margin-bottom: 0px;
                             }
@@ -197,23 +199,63 @@
                 }
 
                 @include listPc{
-                    width       : 16.66%;
+                    width       : 12.5%;
                     padding     : 10px;
+                    figure{
+                        figcaption{
+                            p{
+                                font-size     : 0.9em;
+                                &:first-child{
+                                    font-size: 1.1em;
+                                }
+                            }
+                        }
+                    }
                 }
 
                 @include listPad{
                     width       : 16.66%;
                     padding     : 5px;
+                    figure{
+                        figcaption{
+                            p{
+                                font-size     : 0.8em;
+                                &:first-child{
+                                    font-size: 0.9em;
+                                }
+                            }
+                        }
+                    }
                 }
 
                 @include listMin{
                     width       : 33.3333%;
                     padding     : 5px;
+                    figure{
+                        figcaption{
+                            p{
+                                font-size     : 0.7em;
+                                &:first-child{
+                                    font-size: 0.9em;
+                                }
+                            }
+                        }
+                    }
                 }
 
                 @include listMobile{
                     width       : 50%;
                     padding     : 5px;
+                    figure{
+                        figcaption{
+                            p{
+                                font-size     : 0.7em;
+                                &:first-child{
+                                    font-size: 0.9em;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             &[data-type=singer]{

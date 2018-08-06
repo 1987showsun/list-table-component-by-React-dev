@@ -88,15 +88,27 @@
     },
     {
       "id"           : 4,
-      "cover"        : "https://i.kfs.io/album/tw/5253367,2v1/fit/500x500.jpg",
-      "name"         : "哎呦，不錯哦",
-      "name_en"      : "哎呦，不錯哦"
+      "cover"        : "https://i.kfs.io/album/global/37312430,0v1/fit/500x500.jpg",
+      "name"         : "Summer Nights",
+      "name_en"      : "Summer Nights"
     },
     {
       "id"           : 5,
       "cover"        : "https://i.kfs.io/album/tw/1517099,1v4/fit/500x500.jpg",
       "name"         : "周杰倫【天臺】電影原聲帶",
       "name_en"      : "周杰倫【天臺】電影原聲帶"
+    },
+    {
+      "id"           : 6,
+      "cover"        : "https://i.kfs.io/album/tw/5253367,2v1/fit/500x500.jpg",
+      "name"         : "哎呦，不錯哦",
+      "name_en"      : "哎呦，不錯哦"
+    },
+    {
+      "id"           : 7,
+      "cover"        : "https://i.kfs.io/album/global/29161782,0v1/fit/500x500.jpg",
+      "name"         : "One More Time",
+      "name_en"      : "One More Time"
     }
   ]
 }
