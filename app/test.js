@@ -30,7 +30,6 @@ export default class Router extends React.Component{
     }
 
     render(){
-        console.log( data['list'] );
         return(
             <div>
                 <div className="title">
@@ -43,7 +42,7 @@ export default class Router extends React.Component{
                     columns           = { thead['test'] }
                     data              = { data['list'] }
                     currentPage       = { this.props.match['params']['current'] }
-                    paginationStyle   = "model1"
+                    paginationStyle   = "model2"
                     paginationPath    = { `/asd` }
                     paginationSearch  = { `?testSearch=zzzz` }
                     returnCurrentPage = { this.returnCurrentPage.bind(this) }

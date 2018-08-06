@@ -1,5 +1,6 @@
-import React    from 'react';
-import { Link }       from 'react-router-dom';
+import React                        from 'react';
+import { Link }                     from 'react-router-dom';
+import { FaAngleLeft,FaAngleRight } from 'react-icons/fa';
 
 //Components
 import Item           from './item';
@@ -53,19 +54,19 @@ export default class Pagination extends React.Component{
             
             case "model2":
                 let match   = this.state.match;
-                let current = match['params']!=undefined? Number(match['params']['current']) : 1;
+                let current = match['params']['current']!=undefined? Number(match['params']['current']) : 1;
                 if( current==1 ){
-                    pagination[0]= <li key="1" className="pointerEvents"><Link to={`${this.state.path}/${current-1}${this.state.serach}`} onClick={this.callback.bind(this,current-1)} className="changePageBtn fas fa-angle-left"></Link></li>;
+                    pagination[0]= <li key="1" className="pointerEvents"><Link to={`${this.state.path}/${current-1}${this.state.serach}`} onClick={this.callback.bind(this,current-1)} className="changePageBtn"><FaAngleLeft/></Link></li>;
                     pagination[1]= <li key="2" className="currentInfo">{`${current} / ${totalPage}`}</li>
-                    pagination[2]= <li key="3"><Link to={`${this.state.path}/${current+1}${this.state.serach}`} onClick={this.callback.bind(this,current+1)} className="changePageBtn fas fa-angle-right"></Link></li>;
+                    pagination[2]= <li key="3"><Link to={`${this.state.path}/${current+1}${this.state.serach}`} onClick={this.callback.bind(this,current+1)} className="changePageBtn"><FaAngleRight /></Link></li>;
                 }else if( current>=totalPage ){
-                    pagination[0]= <li key="1"><Link to={`${this.state.path}/${current-1}${this.state.serach}`} onClick={this.callback.bind(this,current-1)} className="changePageBtn fas fa-angle-left"></Link></li>;
+                    pagination[0]= <li key="1"><Link to={`${this.state.path}/${current-1}${this.state.serach}`} onClick={this.callback.bind(this,current-1)} className="changePageBtn"><FaAngleLeft/></Link></li>;
                     pagination[1]= <li key="2" className="currentInfo">{`${current} / ${totalPage}`}</li>
-                    pagination[2]= <li key="3" className="pointerEvents"><Link to={`${this.state.path}/${current+1}${this.state.serach}`} onClick={this.callback.bind(this,current+1)} className="changePageBtn fas fa-angle-right"></Link></li>;
+                    pagination[2]= <li key="3" className="pointerEvents"><Link to={`${this.state.path}/${current+1}${this.state.serach}`} onClick={this.callback.bind(this,current+1)} className="changePageBtn"><FaAngleRight /></Link></li>;
                 }else{
-                    pagination[0]= <li key="1"><Link to={`${this.state.path}/${current-1}${this.state.serach}`} onClick={this.callback.bind(this,current-1)} className="changePageBtn fas fa-angle-left"></Link></li>;
+                    pagination[0]= <li key="1"><Link to={`${this.state.path}/${current-1}${this.state.serach}`} onClick={this.callback.bind(this,current-1)} className="changePageBtn"><FaAngleLeft /></Link></li>;
                     pagination[1]= <li key="2" className="currentInfo">{`${current} / ${totalPage}`}</li>
-                    pagination[2]= <li key="3"><Link to={`${this.state.path}/${current+1}${this.state.serach}`} onClick={this.callback.bind(this,current+1)} className="changePageBtn fas fa-angle-right"></Link></li>;
+                    pagination[2]= <li key="3"><Link to={`${this.state.path}/${current+1}${this.state.serach}`} onClick={this.callback.bind(this,current+1)} className="changePageBtn"><FaAngleRight /></Link></li>;
                 }
                 break;
             
